@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Easy Home - Türkiye'nin En Güvenilir Ev Kiralama Platformu</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <!-- index.html -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-logo" onclick="navigateToPage('home')">
+          <div class="logo-icon"><i class="fas fa-home"></i></div>
+          <h2>KiralıkEvim</h2>
+        </div>
+        <ul class="nav-menu">
+          <li class="nav-item">
+            <a
+              href="#"
+              class="nav-link active"
+              data-page="home"
+              onclick="navigateToPage('home')"
+              >Ana Sayfa</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              href="#"
+              class="nav-link"
+              data-page="listings"
+              onclick="navigateToPage('listings')"
+              >İlanlar</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              href="#"
+              class="nav-link"
+              data-page="favorites"
+              onclick="navigateToPage('favorites')"
+              >Favorilerim</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              href="#"
+              class="nav-link"
+              data-page="add-listing"
+              onclick="navigateToPage('add-listing')"
+              >İlan Ekle</a
+            >
+          </li>
+          <li class="nav-item">
+            <div id="auth-area">
+              <button
+                id="login-button"
+                class="login-btn"
+                onclick="openModal('loginModal')"
+              >
+                Giriş Yap
+              </button>
+              <span
+                id="user-name"
+                style="display: none; font-weight: bold; margin: 0 10px"
+              ></span>
+              <button
+                id="logout-button"
+                class="login-btn"
+                style="display: none"
+                onclick="handleLogout()"
+              >
+                Çıkış Yap
+              </button>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="main-content">
+      <!-- Homepage -->
+      <div id="home" class="page active">
+        <!-- Hero Section -->
+        <section class="hero">
+          <div class="hero-background">
+            <img
+              src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+              alt="İstanbul Evleri"
+              class="hero-image"
+            />
+            <div class="hero-overlay"></div>
+          </div>
+          <div class="hero-content">
+            <h1 class="hero-title">Hayalinizdeki Evi Bulun</h1>
+            <p class="hero-subtitle">
+              Türkiye'nin her yerinden binlerce ev seçeneği
+            </p>
+
+            <!-- Search Bar -->
+            <div class="search-container">
+              <div class="search-box">
+                <div class="search-field">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <select id="hero-city">
+                    <option value="">Şehir Seçin</option>
+                    <option value="istanbul">İstanbul</option>
+                    <option value="ankara">Ankara</option>
+                    <option value="izmir">İzmir</option>
+                    <option value="antalya">Antalya</option>
+                    <option value="bursa">Bursa</option>
+                  </select>
+                </div>
+                <div class="search-field">
+                  <i class="fas fa-bed"></i>
+                  <select id="hero-rooms">
+                    <option value="">Oda Sayısı</option>
+                    <option value="1">1+0</option>
+                    <option value="2">1+1</option>
+                    <option value="3">2+1</option>
+                    <option value="4">3+1</option>
+                    <option value="5">4+1</option>
+                  </select>
+                </div>
+                <div class="search-field">
+                  <i class="fas fa-lira-sign"></i>
+                  <select id="hero-price">
+                    <option value="">Fiyat Aralığı</option>
+                    <option value="0-5000">0 - 5.000 TL</option>
+                    <option value="5000-10000">5.000 - 10.000 TL</option>
+                    <option value="10000-20000">10.000 - 20.000 TL</option>
+                    <option value="20000+">20.000+ TL</option>
+                  </select>
+                </div>
+                <button class="search-btn" onclick="searchHomes()">
+                  <i class="fas fa-search"></i>
+                  Ara
+                </button>
+              </div>
+            </div>
+
+            <div class="hero-actions">
+              <button
+                class="cta-btn primary"
+                onclick="navigateToPage('listings')"
+              >
+                İlanları Görüntüle
+              </button>
+              <button
+                class="cta-btn secondary"
+                onclick="openModal('loginModal')"
+              >
+                Ücretsiz Kayıt Ol
+              </button>
+            </div>
+          </div>
+
+          <!-- Scroll Down Arrow -->
+          <div class="scroll-down">
+            <i class="fas fa-chevron-down"></i>
+          </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features">
+          <div class="container">
+            <h2 class="section-title">Neden Easy Home ?</h2>
+            <div class="features-grid">
+              <div class="feature-card">
+                <div class="feature-icon">
+                  <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Güvenli İşlemler</h3>
+                <p>Tüm işlemleriniz güvenli ve şifreli bağlantılarla korunur</p>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon">
+                  <i class="fas fa-search"></i>
+                </div>
+                <h3>Kolay Arama</h3>
+                <p>
+                  Gelişmiş filtreleme seçenekleri ile istediğiniz evi kolayca
+                  bulun
+                </p>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon">
+                  <i class="fas fa-headset"></i>
+                </div>
+                <h3>7/24 Destek</h3>
+                <p>Uzman ekibimiz her zaman yanınızda</p>
+              </div>
+              <div class="feature-card">
+                <div class="feature-icon">
+                  <i class="fas fa-heart"></i>
+                </div>
+                <h3>Favoriler</h3>
+                <p>Beğendiğiniz evleri favorilerinize ekleyin</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Popular Cities -->
+        <section class="popular-cities">
+          <div class="container">
+            <h2 class="section-title">Popüler Şehirler</h2>
+            <div class="cities-grid">
+              <div class="city-card" onclick="searchByCity('istanbul')">
+                <img
+                  src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  alt="İstanbul Boğaz"
+                />
+                <div class="city-info">
+                  <h3>İstanbul</h3>
+                  <p>2,847 ilan</p>
+                </div>
+              </div>
+              <div class="city-card" onclick="searchByCity('ankara')">
+                <img
+                  src="https://images.unsplash.com/photo-1584816152587-382580af2d85?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  alt="Ankara Atakule"
+                />
+                <div class="city-info">
+                  <h3>Ankara</h3>
+                  <p>1,523 ilan</p>
+                </div>
+              </div>
+              <div class="city-card" onclick="searchByCity('izmir')">
+                <img
+                  src="https://images.unsplash.com/photo-1719688550640-e27dda479c57?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  alt="İzmir Kordon"
+                />
+                <div class="city-info">
+                  <h3>İzmir</h3>
+                  <p>987 ilan</p>
+                </div>
+              </div>
+              <div class="city-card" onclick="searchByCity('antalya')">
+                <img
+                  src="https://plus.unsplash.com/premium_photo-1661962590522-1b700c5bb5e3?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  alt="Antalya Kaleiçi"
+                />
+                <div class="city-info">
+                  <h3>Antalya</h3>
+                  <p>654 ilan</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Listings Page -->
+      <div id="listings" class="page">
+        <div class="container">
+          <div class="listings-header">
+            <h1>Ev İlanları</h1>
+            <p>
+              Türkiye genelinde <span id="total-listings">1,247</span> ilan
+              bulundu
+            </p>
+          </div>
+
+          <div class="listings-content">
+            <!-- Filters Sidebar -->
+            <aside class="filters-sidebar">
+              <div class="filters-header">
+                <h3>Filtreler</h3>
+                <button class="clear-filters" onclick="clearFilters()">
+                  Temizle
+                </button>
+              </div>
+
+              <div class="filter-group">
+                <label>Şehir</label>
+                <select id="filter-city" onchange="applyFilters()">
+                  <option value="">Tümü</option>
+                  <option value="istanbul">İstanbul</option>
+                  <option value="ankara">Ankara</option>
+                  <option value="izmir">İzmir</option>
+                  <option value="antalya">Antalya</option>
+                  <option value="bursa">Bursa</option>
+                </select>
+              </div>
+
+              <div class="filter-group">
+                <label>İlçe</label>
+                <select id="filter-district" onchange="applyFilters()">
+                  <option value="">Tümü</option>
+                </select>
+              </div>
+
+              <div class="filter-group">
+                <label>Fiyat Aralığı</label>
+                <div class="price-range">
+                  <input
+                    type="range"
+                    id="price-min"
+                    min="0"
+                    max="50000"
+                    value="0"
+                    oninput="updatePriceRange()"
+                  />
+                  <input
+                    type="range"
+                    id="price-max"
+                    min="0"
+                    max="50000"
+                    value="50000"
+                    oninput="updatePriceRange()"
+                  />
+                  <div class="price-display">
+                    <span id="price-min-display">0</span> TL -
+                    <span id="price-max-display">50,000</span> TL
+                  </div>
+                </div>
+              </div>
+
+              <div class="filter-group">
+                <label>Oda Sayısı</label>
+                <div class="room-selector">
+                  <button
+                    class="room-btn"
+                    data-rooms="1"
+                    onclick="selectRooms(1)"
+                  >
+                    1+0
+                  </button>
+                  <button
+                    class="room-btn"
+                    data-rooms="2"
+                    onclick="selectRooms(2)"
+                  >
+                    1+1
+                  </button>
+                  <button
+                    class="room-btn"
+                    data-rooms="3"
+                    onclick="selectRooms(3)"
+                  >
+                    2+1
+                  </button>
+                  <button
+                    class="room-btn"
+                    data-rooms="4"
+                    onclick="selectRooms(4)"
+                  >
+                    3+1
+                  </button>
+                  <button
+                    class="room-btn"
+                    data-rooms="5"
+                    onclick="selectRooms(5)"
+                  >
+                    4+1
+                  </button>
+                </div>
+              </div>
+
+              <div class="filter-group">
+                <label class="checkbox-label">
+                  <input
+                    type="checkbox"
+                    id="furnished"
+                    onchange="applyFilters()"
+                  />
+                  <span class="checkmark"></span>
+                  Eşyalı
+                </label>
+              </div>
+
+              <div class="filter-group">
+                <label class="checkbox-label">
+                  <input
+                    type="checkbox"
+                    id="pet-friendly"
+                    onchange="applyFilters()"
+                  />
+                  <span class="checkmark"></span>
+                  Evcil Hayvan Dostu
+                </label>
+              </div>
+
+              <div class="filter-group">
+                <label>Sıralama</label>
+                <select id="sort-by" onchange="applyFilters()">
+                  <option value="newest">En Yeni</option>
+                  <option value="price-low">Fiyat (Düşük-Yüksek)</option>
+                  <option value="price-high">Fiyat (Yüksek-Düşük)</option>
+                </select>
+              </div>
+            </aside>
+
+            <!-- Listings Grid -->
+            <div class="listings-main">
+              <div class="listings-controls">
+                <div class="view-toggle">
+                  <button
+                    class="view-btn active"
+                    data-view="grid"
+                    onclick="toggleView('grid')"
+                  >
+                    <i class="fas fa-th"></i>
+                  </button>
+                  <button
+                    class="view-btn"
+                    data-view="list"
+                    onclick="toggleView('list')"
+                  >
+                    <i class="fas fa-list"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div id="listings-grid" class="listings-grid">
+                <!-- Property cards will be dynamically generated here -->
+              </div>
+
+              <div class="pagination">
+                <button class="page-btn" onclick="changePage(-1)">
+                  <i class="fas fa-chevron-left"></i>
+                </button>
+                <span class="page-info">
+                  Sayfa <span id="current-page">1</span> /
+                  <span id="total-pages">12</span>
+                </span>
+                <button class="page-btn" onclick="changePage(1)">
+                  <i class="fas fa-chevron-right"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Favorites Page -->
+      <div id="favorites" class="page">
+        <div class="container">
+          <div class="favorites-header">
+            <h1>Favorilerim</h1>
+            <p id="favorites-count-text">Henüz favori ilan eklenmemiş</p>
+          </div>
+          <div id="favorites-grid" class="listings-grid">
+            <div class="empty-favorites">
+              <i class="fas fa-heart"></i>
+              <h3>Henüz favori ilan yok</h3>
+              <p>
+                Beğendiğiniz ilanları favorilerinize ekleyerek buradan kolayca
+                erişebilirsiniz
+              </p>
+              <button
+                class="cta-btn primary"
+                onclick="navigateToPage('listings')"
+              >
+                İlanları Görüntüle
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- “İlan Ekle” Page – HTML -->
+      <div id="add-listing" class="page">
+        <section class="section-title">
+          <h1>Yeni İlan Ekle</h1>
+        </section>
+        <div class="container">
+          <!-- TEK FORM ETİKETİ BAŞLADI -->
+          <form
+            id="add-listing-form"
+            class="add-listing-form"
+            enctype="multipart/form-data"
+            onsubmit="handleAddListing(event)"
+          >
+            <!-- Başlık -->
+            <div class="form-group">
+              <label for="listing-title">Başlık</label>
+              <input
+                type="text"
+                id="listing-title"
+                required
+                placeholder="Örn: Boğaz Manzaralı 2+1 Daire"
+              />
+            </div>
+
+            <!-- Fiyat -->
+            <div class="form-group">
+              <label for="listing-price">Fiyat (TL/ay)</label>
+              <input
+                type="number"
+                id="listing-price"
+                required
+                placeholder="Örn: 12000"
+              />
+            </div>
+
+            <!-- Metrekare -->
+            <div class="form-group">
+              <label for="listing-area">Metrekare (m²)</label>
+              <input
+                type="number"
+                id="listing-area"
+                required
+                placeholder="Örn: 85"
+              />
+            </div>
+
+            <!-- Oda ve Banyo Sayısı -->
+            <div class="form-group">
+              <label for="listing-bedrooms">Yatak Odası Sayısı</label>
+              <input
+                type="number"
+                id="listing-bedrooms"
+                required
+                placeholder="Örn: 2"
+              />
+            </div>
+            <div class="form-group">
+              <label for="listing-bathrooms">Banyo Sayısı</label>
+              <input
+                type="number"
+                id="listing-bathrooms"
+                required
+                placeholder="Örn: 1"
+              />
+            </div>
+
+            <!-- Şehir ve İlçe -->
+            <div class="form-group">
+              <label for="listing-city">Şehir</label>
+              <input
+                type="text"
+                id="listing-city"
+                required
+                placeholder="Örn: İzmir"
+              />
+            </div>
+            <div class="form-group">
+              <label for="listing-district">İlçe</label>
+              <input
+                type="text"
+                id="listing-district"
+                required
+                placeholder="Örn: Bornova"
+              />
+            </div>
+
+            <!-- Adres -->
+            <div class="form-group">
+              <label for="listing-location">Açık Adres (Konum)</label>
+              <input
+                type="text"
+                id="listing-location"
+                required
+                placeholder="Örn: Bornova, İzmir"
+              />
+            </div>
+
+            <!-- Eşyalı / Evcil Hayvan -->
+            <div class="form-group">
+              <label>
+                <input type="checkbox" id="listing-furnished" />
+                Eşyalı
+              </label>
+            </div>
+            <div class="form-group">
+              <label>
+                <input type="checkbox" id="listing-petFriendly" />
+                Evcil Hayvana Uygun
+              </label>
+            </div>
+
+            <!-- Özellikler (virgülle ayrılmış) -->
+            <div class="form-group">
+              <label for="listing-features">Özellikler (virgülle ayır)</label>
+              <input
+                type="text"
+                id="listing-features"
+                placeholder="Örn: Balkon, Klima, Otopark"
+              />
+            </div>
+
+            <!-- Resim Yükleme: Ev Fotoğrafları (max 5) -->
+            <div class="form-group">
+              <label for="listing-images">Evin Fotoğrafları (max 5)</label>
+              <div id="listing-image-dropzone" class="drop-zone">
+                <p>Sürükle & Bırak veya tıklayıp seçin (max 5)</p>
+                <input
+                  type="file"
+                  id="listing-images"
+                  accept="image/*"
+                  multiple
+                  style="display: none"
+                />
+              </div>
+              <p class="note">En fazla 5 fotoğraf yükleyebilirsiniz.</p>
+              <div id="preview-container" class="preview-container"></div>
+            </div>
+
+            <!-- Açıklama -->
+            <div class="form-group">
+              <label for="listing-description">Açıklama</label>
+              <textarea
+                id="listing-description"
+                rows="4"
+                placeholder="İlan açıklamasını buraya girin..."
+              ></textarea>
+            </div>
+
+            <!-- TEK “İlanı Ekle” Butonu -->
+            <button type="submit" class="cta-btn primary full-width">
+              İlanı Ekle
+            </button>
+          </form>
+          <!-- TEK FORM ETİKETİ BİTTİ -->
+        </div>
+      </div>
+
+      <!-- Contact Page -->
+      <div id="contact" class="page">
+        <div class="container">
+          <div class="contact-header">
+            <h1>İletişim</h1>
+            <p>Sorularınız için bizimle iletişime geçin</p>
+          </div>
+          <div class="contact-content">
+            <div class="contact-info">
+              <div class="contact-item">
+                <i class="fas fa-phone"></i>
+                <div>
+                  <h3>Telefon</h3>
+                  <p>+90 212 555 0123</p>
+                </div>
+              </div>
+              <div class="contact-item">
+                <i class="fas fa-envelope"></i>
+                <div>
+                  <h3>E-posta</h3>
+                  <p>info@easyhome.com</p>
+                </div>
+              </div>
+              <div class="contact-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <div>
+                  <h3>Adres</h3>
+                  <p>
+                    Maslak Mahallesi, Büyükdere Cad. No:123<br />Şişli/İstanbul
+                  </p>
+                </div>
+              </div>
+            </div>
+            <form class="contact-form">
+              <div class="form-group">
+                <input type="text" placeholder="Adınız Soyadınız" required />
+              </div>
+              <div class="form-group">
+                <input type="email" placeholder="E-posta Adresiniz" required />
+              </div>
+              <div class="form-group">
+                <input type="tel" placeholder="Telefon Numaranız" />
+              </div>
+              <div class="form-group">
+                <textarea placeholder="Mesajınız" rows="5" required></textarea>
+              </div>
+              <button type="submit" class="cta-btn primary">
+                Mesaj Gönder
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Property Detail Page -->
+      <div id="detail" class="page">
+        <div class="container">
+          <div id="property-detail">
+            <!-- Property detail content will be dynamically generated -->
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <div class="footer-logo">
+              <div class="logo-icon">
+                <i class="fas fa-home"></i>
+              </div>
+              <h3>Easy Home</h3>
+            </div>
+            <p>Türkiye'nin en güvenilir ev kiralama platformu</p>
+            <div class="social-links">
+              <a href="https://www.facebook.com/?locale=tr_TR"
+                ><i class="fab fa-facebook"></i
+              ></a>
+              <a href="https://x.com/?lang=tr"
+                ><i class="fab fa-twitter"></i
+              ></a>
+              <a href="https://www.instagram.com/"
+                ><i class="fab fa-instagram"></i
+              ></a>
+              <a href="https://www.linkedin.com/in/%C3%B6mer-pehriz-381801260/"
+                ><i class="fab fa-linkedin"></i
+              ></a>
+            </div>
+          </div>
+          <div class="footer-section">
+            <h4>Hızlı Linkler</h4>
+            <ul>
+              <li>
+                <a href="#" onclick="navigateToPage('home')">Ana Sayfa</a>
+              </li>
+              <li>
+                <a href="#" onclick="navigateToPage('listings')">İlanlar</a>
+              </li>
+              <li>
+                <a href="#" onclick="navigateToPage('favorites')"
+                  >Favorilerim</a
+                >
+              </li>
+              <li>
+                <a href="#" onclick="navigateToPage('contact')">İletişim</a>
+              </li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h4>Hakkımızda</h4>
+            <ul>
+              <li><a href="#">Yardım Merkezi</a></li>
+              <li><a href="#">SSS</a></li>
+              <li><a href="#">Gizlilik Politikası</a></li>
+              <li><a href="#">Kullanım Şartları</a></li>
+            </ul>
+          </div>
+          <div class="footer-section">
+            <h4>İletişim</h4>
+            <p><i class="fas fa-envelope"></i> info@easyhome.com</p>
+            <p><i class="fas fa-phone"></i> +90 212 555 0123</p>
+            <p><i class="fas fa-map-marker-alt"></i> İstanbul, Türkiye</p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2025 Easy Home. Tüm hakları saklıdır.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Login/Register Modal -->
+    <!-- Login/Register Modal -->
+    <div id="loginModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal('loginModal')">&times;</span>
+        <div class="modal-header">
+          <h2 id="modal-title">Giriş Yap</h2>
+          <div class="modal-tabs">
+            <button class="tab-btn active" onclick="switchTab('login')">
+              Giriş Yap
+            </button>
+            <button class="tab-btn" onclick="switchTab('register')">
+              Kayıt Ol
+            </button>
+          </div>
+        </div>
+
+        <!-- LOGIN FORM -->
+        <form
+          id="login-form"
+          class="auth-form active"
+          onsubmit="handleLogin(event)"
+        >
+          <div class="form-group">
+            <input
+              type="email"
+              id="loginEmail"
+              placeholder="E-posta adresiniz"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <input
+              type="password"
+              id="loginPassword"
+              placeholder="Şifreniz"
+              required
+            />
+          </div>
+          <button type="submit" class="cta-btn primary full-width">
+            Giriş Yap
+          </button>
+          <p class="form-footer"><a href="#">Şifremi unuttum</a></p>
+        </form>
+
+        <!-- REGISTER FORM (AVATAR ZORUNLU) -->
+        <form
+          id="register-form"
+          class="auth-form"
+          onsubmit="handleRegister(event)"
+        >
+          <div class="form-group">
+            <input
+              type="text"
+              id="registerName"
+              placeholder="Adınız Soyadınız"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <input
+              type="email"
+              id="registerEmail"
+              placeholder="E-posta adresiniz"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <input
+              type="tel"
+              id="registerPhone"
+              placeholder="Telefon numaranız"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <input
+              type="password"
+              id="registerPassword"
+              placeholder="Şifreniz"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <input
+              type="password"
+              id="registerPasswordConfirm"
+              placeholder="Şifrenizi tekrar girin"
+              required
+            />
+          </div>
+
+          <!-- ***** Aşağıdakini EKLEYİN: Kullanıcı Avatarı (Zorunlu) ***** -->
+          <div class="form-group">
+            <label for="register-avatar"
+              >Profil Fotoğrafı (Avatar)
+              <span style="color: red">*</span></label
+            >
+            <input type="file" id="register-avatar" accept="image/*" required />
+          </div>
+          <!-- *********************************************** -->
+
+          <label class="checkbox-label">
+            <input type="checkbox" required />
+            <span class="checkmark"></span>
+            <a href="#">Kullanım Şartlarını</a> ve
+            <a href="#">Gizlilik Politikasını</a> kabul ediyorum
+          </label>
+
+          <button type="submit" class="cta-btn primary full-width">
+            Kayıt Ol
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Contact Landlord Modal (index.html içinde) -->
+    <div id="contactModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal('contactModal')">&times;</span>
+        <div class="modal-header">
+          <h2>Ev Sahibi ile İletişime Geç</h2>
+        </div>
+
+        <!-- AŞAĞIDAKİ BLOĞU BİREBİR KOPYALA-YAPIŞTIR YAPIN -->
+        <form id="contact-landlord-form" class="contact-landlord-form">
+          <div class="form-group">
+            <input
+              type="text"
+              id="contactName"
+              placeholder="Adınız Soyadınız"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <input
+              type="email"
+              id="contactEmail"
+              placeholder="E-posta adresiniz"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <input
+              type="tel"
+              id="contactPhone"
+              placeholder="Telefon numaranız"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <textarea
+              id="contactMessage"
+              placeholder="Mesajınız"
+              rows="4"
+              required
+            ></textarea>
+          </div>
+          <button type="submit" class="cta-btn primary full-width">
+            Mesaj Gönder
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
