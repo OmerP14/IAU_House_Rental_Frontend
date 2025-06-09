@@ -667,13 +667,13 @@ function handleLogout() {
 async function handleRegister(e) {
   e.preventDefault();
 
-  // 0) Avatar seçilmiş mi kontrolü (HTML’de de required var, ama JS’de ekstra güvenlik)
+  // 0) Avatar seçilmiş mi kontrolü
   const avatarInput = document.getElementById("register-avatar");
   if (!avatarInput || !avatarInput.files || avatarInput.files.length === 0) {
     alert("Lütfen önce avatar olarak bir profil fotoğrafı seçin!");
     return;
   }
-  // Seçilen avatar dosyasını global bir değişkene atıyoruz
+  // Global değişkene kaydediyoruz (isteğe bağlı)
   selectedAvatarFile = avatarInput.files[0];
 
   // 1) Form alanlarından değerleri oku
@@ -694,44 +694,50 @@ async function handleRegister(e) {
     return;
   }
 
-  // 2) Seçilen avatar dosyasını base64'e çeviriyoruz
-  let avatarDataUrl = "";
-  avatarDataUrl = await new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = () => reject("Avatar okunamadı");
-    reader.readAsDataURL(selectedAvatarFile);
-  });
+  // 2) Avatar dosyasını base64'e çevir
+  let avatarDataUrl;
+  try {
+    avatarDataUrl = await new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = () => reject("Avatar okunamadı");
+      reader.readAsDataURL(selectedAvatarFile);
+    });
+  } catch (err) {
+    alert(err);
+    return;
+  }
 
-  // 3) Backend’e kayıt isteği (örnek: eğer bir API’ye gönderiyorsanız onu kullanın; aşağıda örnek gösterilmektedir)
+  // 3) Kayıt isteğini gönder
   try {
     const response = await fetch(apiUrl + "/api/users/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, password }),
+      body: JSON.stringify({ name, email, phone, password }),
     });
     const data = await response.json();
+
     if (!response.ok) {
-      alert(data.error || "Kayıt başarısız!");
-      return;
+      // Hata varsa ekrana yazdır
+      return alert(data.error || "Kayıt başarısız!");
     }
 
-    // 4) Başarılı kayıt sonrası kullanıcıyı localStorage’a kaydet (avatar da dahil)
+    // 4) Başarılıysa localStorage'a kaydet
     const userObj = {
       _id: data.user._id,
       name: data.user.name,
       email: data.user.email,
       avatar: avatarDataUrl,
-      rating: 0,
+      rating: data.user.rating || 0,
     };
     localStorage.setItem("currentUser", JSON.stringify(userObj));
 
     // 5) UI güncelle, modal kapat, uyarı
     updateUserUI();
-    closeModal("loginModal");
-    alert("Kayıt başarılı! Hoş geldin, " + userObj.name);
+    closeModal("registerModal");
+    alert(`Kayıt başarılı! Hoş geldin, ${userObj.name}`);
 
-    // Formu sıfırla
+    // 6) Formu sıfırla
     e.target.reset();
     selectedAvatarFile = null;
   } catch (err) {
